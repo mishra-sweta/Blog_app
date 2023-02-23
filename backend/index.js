@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
-app.use("/api/users", blogRoutes);
+app.use("/api/blogs", blogRoutes);
 
 // Express server configuration
 const PORT = process.env.PORT || 5000;

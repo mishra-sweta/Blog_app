@@ -1,4 +1,4 @@
-import Blog from "../models/blogModel.js";
+import Blog from "../models/blogModels.js";
 import asyncHandler from "express-async-handler";
 
 /**
@@ -9,20 +9,15 @@ import asyncHandler from "express-async-handler";
 
 export const createBlog = asyncHandler(async (req, res) => {
   try {
-    const blog = await Blog.findOne({ title: req.body.title });
-    if (blog) {
-      res.status(400).json({
-        message: "A blog with same title exists",
-      });
-    }
     const newBlog = await Blog.create({
       title: req.body.title,
       content: req.body.content,
       image: req.body.image,
-      username: req.body.username,
+      username: req.user.username,
     });
     res.status(200).json(newBlog);
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       message: "Something went wrong",
     });
@@ -37,7 +32,7 @@ export const createBlog = asyncHandler(async (req, res) => {
 
 export const getAllBlogs = asyncHandler(async (req, res) => {
   try {
-    let blogs = await Blog.find({}).sort({ createdOn: -1 });
+    let blogs = await Blog.find({}).sort({ _id: -1 });
     res.status(200).json(blogs);
   } catch (error) {
     res.status(500).json({
@@ -47,21 +42,46 @@ export const getAllBlogs = asyncHandler(async (req, res) => {
 });
 
 /**
- * Desc : Fetching blog by title
+ * Desc : Fetching blog by username
  * Method : GET
  * NOTE:
  */
 
-export const getBlogByTitle = asyncHandler(async (req, res) => {
+export const getBlogByUsername = asyncHandler(async (req, res) => {
   try {
-    let blog = await Blog.findOne({ title: req.params.title });
+    let blog = await Blog.find({ username: req.user.username });
 
     if (!blog) {
-      res.status(400).json({
-        message: "No blog with such title",
+      res.status(404).json({
+        message: "No blogs found",
       });
     }
     res.status(200).json(blog);
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong",
+    });
+  }
+});
+
+/**
+ * Desc : Fetching blog by keyword
+ * Method : GET
+ * NOTE:
+ */
+
+export const getBlogByKeyword = asyncHandler(async (req, res) => {
+  try {
+    const keyword = req.query.keyword;
+    const blogs = await Blog.find().sort({ _id: -1 });
+    const temp = blogs.filter((e) => {
+      const title = e.title.toLowerCase();
+      if (title.includes(keyword.toLowerCase())) {
+        return e;
+      }
+    });
+    const Response = await Promise.all(temp);
+    res.status(200).json(Response);
   } catch (error) {
     res.status(500).json({
       message: "Something went wrong",
