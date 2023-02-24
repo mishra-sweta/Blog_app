@@ -121,14 +121,21 @@ export const getBlogById = asyncHandler(async (req, res) => {
 export const updateBlog = asyncHandler(async (req, res) => {
   try {
     const id = req.params.id;
+    const { title, content, image } = req.body;
     const blog = await Blog.findById(id);
     if (!blog) {
       res.status(404).json({
         message: "blog not found ",
       });
     }
-    await Blog.findByIdAndUpdate(id, { $set: req.body });
-    res.status(200).json("Updated successfully");
+    const updatedBlog = {
+      title,
+      content,
+      image,
+      _id: id,
+    };
+    await Blog.findByIdAndUpdate(id, updatedBlog, { new: true });
+    res.status(200).json(["Updated successfully", updatedBlog]);
   } catch (error) {
     console.log(error);
     res.status(500).json({
