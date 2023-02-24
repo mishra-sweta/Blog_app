@@ -5,6 +5,7 @@ import {
   getBlogById,
   getBlogByKeyword,
   getBlogByUsername,
+  updateBlog,
 } from "../controller/blogControllers.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -15,5 +16,6 @@ Router.route("/").get(getAllBlogs);
 Router.route("/myblogs").get(protect, getBlogByUsername);
 Router.route("/search").get(getBlogByKeyword);
 Router.route("/blog").get(getBlogById);
+Router.route("/update/:id").put(protect, updateBlog);
 
 export default Router;
