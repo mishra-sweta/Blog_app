@@ -97,7 +97,7 @@ export const getBlogByKeyword = asyncHandler(async (req, res) => {
 
 export const getBlogById = asyncHandler(async (req, res) => {
   try {
-    const id = req.query.id;
+    const id = req.params.id;
     const blog = await Blog.findById(id);
     if (!blog) {
       res.status(404).json({
@@ -136,6 +136,31 @@ export const updateBlog = asyncHandler(async (req, res) => {
     };
     await Blog.findByIdAndUpdate(id, updatedBlog, { new: true });
     res.status(200).json(["Updated successfully", updatedBlog]);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Something went wrong",
+    });
+  }
+});
+
+/**
+ * Desc : Deleting a blog
+ * Method : PUT
+ * NOTE:
+ */
+
+export const deleteBlog = asyncHandler(async (req, res) => {
+  try {
+    const id = req.params.id;
+    const blog = await Blog.findById(id);
+    if (!blog) {
+      res.status(404).json({
+        message: "no such blog to delete",
+      });
+    }
+    await Blog.findByIdAndDelete(id);
+    res.status(200).json("Deleted successfully");
   } catch (error) {
     console.log(error);
     res.status(500).json({
