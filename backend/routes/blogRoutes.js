@@ -6,6 +6,7 @@ import {
   getBlogById,
   getBlogByKeyword,
   getBlogByUsername,
+  getFirstThree,
   updateBlog,
 } from "../controller/blogControllers.js";
 import { protect } from "../middleware/authMiddleware.js";
@@ -14,6 +15,7 @@ const Router = express.Router();
 
 Router.route("/create").post(protect, createBlog);
 Router.route("/").get(getAllBlogs);
+Router.route("/threeblogs").get(getFirstThree);
 Router.route("/myblogs").get(protect, getBlogByUsername);
 Router.route("/search").get(getBlogByKeyword);
 Router.route("/blog/:id").get(getBlogById);
