@@ -88,3 +88,26 @@ export const getBlogByKeyword = asyncHandler(async (req, res) => {
     });
   }
 });
+
+/**
+ * Desc : Fetching blog by id
+ * Method : GET
+ * NOTE:
+ */
+
+export const getBlogById = asyncHandler(async (req, res) => {
+  try {
+    const id = req.query.id;
+    const blog = await Blog.findById(id);
+    if (!blog) {
+      res.status(404).json({
+        message: "No blog found with that id ",
+      });
+    }
+    res.status(200).json(blog);
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong",
+    });
+  }
+});
