@@ -149,12 +149,15 @@ export const updateBlog = asyncHandler(async (req, res) => {
       title,
       content,
       image,
-      _id: id,
     };
-    await Blog.findByIdAndUpdate(id, updatedBlog, { new: true });
-    res.status(200).json(["Updated successfully", updatedBlog]);
+    const response = await Blog.findByIdAndUpdate(id, updatedBlog, {
+      new: true,
+    });
+    res.status(200).json({
+      message: "Updated Successfully.",
+      data: response,
+    });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Something went wrong",
     });
@@ -163,7 +166,7 @@ export const updateBlog = asyncHandler(async (req, res) => {
 
 /**
  * Desc : Deleting a blog
- * Method : PUT
+ * Method : DELETE
  * NOTE:
  */
 
@@ -177,9 +180,8 @@ export const deleteBlog = asyncHandler(async (req, res) => {
       });
     }
     await Blog.findByIdAndDelete(id);
-    res.status(200).json("Deleted successfully");
+    res.status(200).json({ message: "Deleted successfully" });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Something went wrong",
     });
