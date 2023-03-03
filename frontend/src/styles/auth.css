@@ -1,0 +1,21 @@
+.auth-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-button {
+  width: 100%;
+  padding: 1%;
+  font-size: small;
+}
+
+Container {
+  padding: 3%;
+}
+
+.auth-card {
+  width: 25rem;
+  padding: 2%;
+}
