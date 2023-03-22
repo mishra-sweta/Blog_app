@@ -28,7 +28,7 @@ export default function MyBlogs() {
   const [blogs, setBlogs] = useState([]);
 
   async function fetchData() {
-    const response = await axios
+    await axios
       .get(baseURL + "/blogs/myblogs", config)
       .then((response) => {
         const blogs = response.data;
@@ -52,11 +52,10 @@ export default function MyBlogs() {
         <h3 style={{ padding: "2%" }}>Total number of blogs : {total}</h3>
 
         {blogs.map((blog, index) => (
-          <Row>
+          <Row key={blog.id}>
             <div>
               <BlogEditCard
                 index={index}
-                key={blog.id}
                 title={blog.title}
                 createdAt={blog.createdAt}
                 id={blog._id}

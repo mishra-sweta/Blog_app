@@ -53,7 +53,7 @@ const CreateBlog = () => {
     <div>
       <Header />
       <Container style={{ paddingBlock: "3%" }}>
-        <h1>So, What's on your mind?</h1>
+        <h1>Hey {user.name} , What's on your mind?</h1>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Title :</Form.Label>

@@ -11,7 +11,7 @@ function BlogDetails() {
   const [blog, setBlog] = useState([]);
 
   async function fetchData() {
-    const response = await axios
+    await axios
       .get(`${baseURL}/blogs/${id}`)
       .then((response) => {
         const blog = response.data;

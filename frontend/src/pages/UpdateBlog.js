@@ -31,7 +31,7 @@ const UpdateBlog = () => {
   }, []);
 
   async function fetchData() {
-    const response = await axios
+    await axios
       .get(`${baseURL}/blogs/${id}`)
       .then((response) => {
         const data = response.data;

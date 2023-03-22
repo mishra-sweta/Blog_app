@@ -20,7 +20,7 @@ export default function Home() {
   const [blogs, setBlogs] = useState([]);
 
   async function fetchData() {
-    const response = await axios
+    await axios
       .get(baseURL + "/blogs/latest")
       .then((response) => {
         const blogs = response.data;
@@ -40,10 +40,9 @@ export default function Home() {
       <Header />
       <Row style={{ padding: "3%" }}>
         {blogs.map((blog) => (
-          <Col>
+          <Col key={blog.id}>
             <div>
               <BlogCard
-                key={blog.id}
                 image={blog.image}
                 title={blog.title}
                 text={blog.content}
