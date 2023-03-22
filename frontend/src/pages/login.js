@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import ErrorAlert from "../components/ErrorAlert.js";
 
 import "../styles/auth.css";
@@ -16,12 +16,19 @@ const initialValues = {
   password: "",
 };
 
-const baseURL = "http://localhost:5000/api/users/login";
+const baseURL = process.env.REACT_APP_baseURL;
 
 export default function Login() {
   const [loginData, setLogin] = useState(initialValues);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem("data"));
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
 
   function onInputChange(e) {
     setLogin({ ...loginData, [e.target.name]: e.target.value });
@@ -31,7 +38,7 @@ export default function Login() {
     event.preventDefault();
 
     try {
-      const response = await axios.post(baseURL, loginData);
+      const response = await axios.post(baseURL + "/users/login", loginData);
       console.log(response.data);
       if (response.status === 200) {
         localStorage.setItem("data", JSON.stringify(response.data));
@@ -77,7 +84,7 @@ export default function Login() {
                 </Form.Group>
 
                 <Form.Text>
-                  Don't have an account? <a href="./register">Click here</a>
+                  Don't have an account? <Link to="/register">Click here</Link>
                 </Form.Text>
               </Col>
             </Row>

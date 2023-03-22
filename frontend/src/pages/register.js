@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
@@ -7,7 +7,7 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import ErrorAlert from "../components/ErrorAlert.js";
 
 const initialValues = {
@@ -17,12 +17,19 @@ const initialValues = {
   password: "",
 };
 
-const baseURL = "http://localhost:5000/api/users/register";
+const baseURL = process.env.REACT_APP_baseURL;
 
 export default function Register() {
   const [registerData, setRegistration] = useState(initialValues);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem("data"));
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
 
   function onInputChange(e) {
     setRegistration({ ...registerData, [e.target.name]: e.target.value });
@@ -32,7 +39,10 @@ export default function Register() {
     event.preventDefault();
 
     try {
-      const response = await axios.post(baseURL, registerData);
+      const response = await axios.post(
+        baseURL + "/users/register",
+        registerData
+      );
       console.log(response.data);
       if (response.status === 200) {
         navigate("/login"); // Redirect to the login page
@@ -102,7 +112,7 @@ export default function Register() {
                   </Form.Group>
 
                   <Form.Text>
-                    Already have an account? <a href="./login">Click here</a>
+                    Already have an account? <Link to="/login">Click here</Link>
                   </Form.Text>
                 </Col>
               </Row>
