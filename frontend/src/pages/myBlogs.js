@@ -27,8 +27,8 @@ export default function MyBlogs() {
 
   const [blogs, setBlogs] = useState([]);
 
-  useEffect(() => {
-    axios
+  async function fetchData() {
+    const response = await axios
       .get(baseURL + "/blogs/myblogs", config)
       .then((response) => {
         const blogs = response.data;
@@ -37,6 +37,10 @@ export default function MyBlogs() {
       .catch((error) => {
         console.log(error.response.data);
       });
+  }
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const total = blogs.length;

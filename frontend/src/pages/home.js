@@ -19,8 +19,8 @@ export default function Home() {
 
   const [blogs, setBlogs] = useState([]);
 
-  useEffect(() => {
-    axios
+  async function fetchData() {
+    const response = await axios
       .get(baseURL + "/blogs/latest")
       .then((response) => {
         const blogs = response.data;
@@ -29,6 +29,10 @@ export default function Home() {
       .catch((error) => {
         console.log(error.response.data);
       });
+  }
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   return (

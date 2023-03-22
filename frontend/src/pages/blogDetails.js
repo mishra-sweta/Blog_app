@@ -10,14 +10,18 @@ function BlogDetails() {
   const { id } = useParams();
   const [blog, setBlog] = useState([]);
 
-  useEffect(() => {
-    axios
+  async function fetchData() {
+    const response = await axios
       .get(`${baseURL}/blogs/${id}`)
       .then((response) => {
         const blog = response.data;
         setBlog(blog); // set the posts data in state
       })
       .catch((error) => console.error(error));
+  }
+
+  useEffect(() => {
+    fetchData();
   }, [id]);
 
   return (

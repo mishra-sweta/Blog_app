@@ -30,14 +30,18 @@ const UpdateBlog = () => {
     }
   }, []);
 
-  useEffect(() => {
-    axios
+  async function fetchData() {
+    const response = await axios
       .get(`${baseURL}/blogs/${id}`)
       .then((response) => {
         const data = response.data;
         setData(data); // set the posts data in state
       })
       .catch((error) => console.error(error));
+  }
+
+  useEffect(() => {
+    fetchData();
   }, [id]);
 
   function onInputChange(e) {
@@ -102,7 +106,7 @@ const UpdateBlog = () => {
             Update
           </Button>
           {"  "}
-          <Link to={"/"}>
+          <Link to={"/blogs/myblogs"}>
             <Button variant="secondary">Cancel</Button>
           </Link>
         </Form>

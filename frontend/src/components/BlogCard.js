@@ -13,9 +13,7 @@ export default function BlogCard(props) {
         />
         <Card.Body className="blog-details">
           <Card.Title className="blog-title">{props.title}</Card.Title>
-          <Card.Text className="blog-description">
-            {props.text.substr(0, 100)}...
-          </Card.Text>
+          <Card.Text className="blog-card-description">{props.text}</Card.Text>
 
           <Link to={`/blogs/${props.id}`}>
             <Button className="blog-button" variant="outline-secondary">

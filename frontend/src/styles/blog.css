@@ -20,9 +20,12 @@
 }
 
 .blog-card-description {
-  font-size: 16px;
-  line-height: 1.5;
-  margin-bottom: 10px;
+  display: block; /* or inline-block */
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  max-height: 3.6em;
+  line-height: 1.2em;
 }
 
 .blog-post {
@@ -34,8 +37,8 @@
 
 .blog-post img {
   width: 100%;
-  max-width: 600px;
-  height: 400px;
+  max-width: 500px;
+  height: 325px;
   margin-bottom: 20px;
 }
 
@@ -48,4 +51,5 @@
   font-size: 18px;
   line-height: 1.5;
   text-align: justify;
+  margin-inline: 100px;
 }

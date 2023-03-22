@@ -39,7 +39,6 @@ export default function Login() {
 
     try {
       const response = await axios.post(baseURL + "/users/login", loginData);
-      console.log(response.data);
       if (response.status === 200) {
         localStorage.setItem("data", JSON.stringify(response.data));
         navigate("/"); // Redirect to the home page
